@@ -1,16 +1,21 @@
-import React, { useState } from 'react';
-import PropTypes from 'prop-types';
-import styled from 'styled-components';
-import SupplierCard from './components/SupplierCard';
+import React, { useState } from "react";
+import PropTypes from "prop-types";
+import styled from "styled-components";
+import SupplierCard from "./components/SupplierCard";
 
 const Suppliers = ({ suppliers }) => {
-  const [chosenSupplier, setChosenSupplier] = useState(null);
-  const onSupplierClickHandler = (supplierId) => {
-    setChosenSupplier(supplierId);
-    return console.log(supplierId);
-  };
   const renderSuppliers = () => {
-    return suppliers.map((id) => <SupplierCard key={id} supplierId={id} onClickHandler={onSupplierClickHandler} chosen={chosenSupplier === id} />);
+    return suppliers.map(({ supplier }) => {
+      return (
+        <SupplierCard
+          key={supplier.supplierId}
+          supplierId={supplier.supplierId}
+          supplier={supplier}
+          onClickHandler={onSupplierClickHandler}
+          chosen={chosenSupplier === supplier.supplierId}
+        />
+      );
+    });
   };
 
   return <SupplierWrapper>{renderSuppliers()}</SupplierWrapper>;
