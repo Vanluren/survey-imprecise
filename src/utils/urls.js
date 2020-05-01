@@ -1,8 +1,8 @@
-let URL_BASE = "https://localhost:5556/api";
-if (process.env.NODE_ENV === "production") {
-  URL_BASE = "http://survey.vanluren.xyz/api";
+let URL_BASE = 'https://localhost:5556/api';
+if (process.env.NODE_ENV === 'production') {
+  URL_BASE = 'http://survey.vanluren.xyz/api';
 } else {
-  URL_BASE = "https://localhost:5556/api";
+  URL_BASE = 'http://localhost:5556/api';
 }
 
 export const API_URL = `${URL_BASE}/questions`;
