@@ -1,10 +1,14 @@
 import React from "react";
 import StateProvider from "./State/provider";
 import Questions from "./Questions/Questions.container";
-import Intro from "./Intro/Intro.container";
-import End from "./Intro/End";
+import Intro from "./TextPages/Intro";
+import End from "./TextPages/End";
 import { Container } from "react-bootstrap";
 import { BrowserRouter, Switch, Route } from "react-router-dom";
+import Respondant from "./TextPages/Respondant";
+import Sustainabilty from "./TextPages/Sustainabilty";
+import PhaseOne from "./TextPages/PhaseOne";
+import PhaseTwo from "./TextPages/PhaseTwo";
 
 const App = () => {
   return (
@@ -13,7 +17,11 @@ const App = () => {
         <Container fluid>
           <Switch>
             <Route path="/" component={Intro} exact />
+            <Route path="/hvem-er-du" component={Respondant} exact />
+            <Route path="/sustainability" component={Sustainabilty} exact />
+            <Route path="/phase/1" component={PhaseOne} exact />
             <Route path="/questions" component={Questions} />
+            <Route path="/phase/2" component={PhaseTwo} exact />
             <Route path="/end" component={End} exact />
           </Switch>
         </Container>

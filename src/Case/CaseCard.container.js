@@ -1,12 +1,12 @@
 import React from "react";
 import PropTypes from "prop-types";
 import styled from "styled-components";
-import { Card, Col } from "react-bootstrap";
+import { Card } from "react-bootstrap";
 import Parameter from "./components/Parameter";
 
 const CaseCard = ({ caseInfo, onClickHandler, chosen, idx }) => {
   const renderParams = () =>
-    caseInfo.parameters.map(({ parameter }) => {
+    caseInfo.caseParameters.map(({ parameter }) => {
       return (
         <Parameter
           key={parameter.parameterId}
@@ -19,16 +19,16 @@ const CaseCard = ({ caseInfo, onClickHandler, chosen, idx }) => {
     });
 
   return (
-    <Col key={caseInfo.caseId}>
-      <StyledCard
-        onClick={() => onClickHandler(caseInfo.caseId)}
-        className={`${chosen ? "bg-info" : ""}`}
-        text={chosen ? "light" : "dark"}
-      >
-        <Card.Header>Case {idx % 2 === 0 ? "a" : "b"}</Card.Header>
-        <Card.Body>{renderParams()}</Card.Body>
-      </StyledCard>
-    </Col>
+    <StyledCard
+      onClick={() => onClickHandler(caseInfo.caseId)}
+      className={`${chosen ? "bg-info" : ""}`}
+      text={chosen ? "light" : "dark"}
+    >
+      <StyledCardHeader>
+        Leverandør {idx % 2 === 0 ? "a" : "b"}
+      </StyledCardHeader>
+      <Card.Body>{renderParams()}</Card.Body>
+    </StyledCard>
   );
 };
 
@@ -37,9 +37,13 @@ const StyledCard = styled(Card)`
   cursor: pointer;
 `;
 
+const StyledCardHeader = styled(Card.Header)`
+  text-transform: uppercase;
+`;
+
 CaseCard.propTypes = {
   onClickHandler: PropTypes.func.isRequired,
   chosen: PropTypes.bool,
 };
 
-export default CaseCard;
+export default React.memo(CaseCard);

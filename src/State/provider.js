@@ -1,26 +1,45 @@
 import React, { useEffect } from "react";
 import StateContext from "./context";
 import { createAction } from "../utils/createAction";
-import { API_URL, RESPONSE_URL } from "../utils/urls";
-import { useHistory } from "react-router-dom";
+import { API_URL, RESPONSE_URL, RESPONDANT_URL } from "../utils/urls";
+import { SAVE_RESPONDANT_ID, SUCCESS, ERROR, REQUEST } from "./action-types.js";
 
-const initialState = {
+export const initialState = {
   isLoading: false,
   errors: null,
   questions: [],
-  suppliers: {},
   numOfQuestions: null,
   currentQuestion: 0,
   humanQuestionNum: 1,
-  steps: [],
+  respondantId: null,
 };
 
-const request = () => createAction("request");
-const success = (res) => createAction("success", res);
-const error = (err) => createAction("error", err);
+const request = () => createAction(REQUEST);
+const success = (res) => createAction(SUCCESS, res);
+const error = (err) => createAction(ERROR, err);
+const saveRespondantIdToLocalStorage = (id) => {
+  window.localStorage.setItem("respondantId", id);
+};
+const saveRespondant = (id) => createAction(SAVE_RESPONDANT_ID, id);
 
-export const nextQuestion = () => createAction("next question");
-export const saveAnswer = (questionId, caseId, cases) =>
+export const saveOccupation = (occupation) =>
+  fetch(RESPONDANT_URL, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    mode: "cors",
+    body: JSON.stringify({ occupation }),
+  })
+    .then((res) => res.json())
+    .then((body) => {
+      console.log(body.respondantId);
+      saveRespondantIdToLocalStorage(body.respondantId);
+      return saveRespondant(body.respondantId);
+    })
+    .catch((error) => error(error));
+
+export const saveAnswer = (respondantId, questionId, caseId, cases) =>
   fetch(RESPONSE_URL, {
     method: "POST",
     headers: {
@@ -28,34 +47,38 @@ export const saveAnswer = (questionId, caseId, cases) =>
       // 'Content-Type': 'application/x-www-form-urlencoded',
     },
     mode: "cors",
-    body: JSON.stringify({ questionId, chosenCaseId: caseId, choices: cases }),
+    body: JSON.stringify({
+      respondantId: respondantId || window.localStorage.getItem("respondantId"),
+      questionId,
+      chosenCaseId: caseId,
+      choices: cases,
+    }),
   }).catch((err) => {
     return error(err);
   });
 
 const reducer = (state, action) => {
+  console.log(action);
   switch (action.type) {
-    case "request":
+    case REQUEST:
       return { ...state, isLoading: true };
-    case "success":
+    case SUCCESS:
       return {
         ...state,
         isLoading: false,
         questions: action.payload,
         numOfQuestions: action.payload.length,
-        steps: [...state.steps, "/intro", "/question/1", "/end"],
       };
-    case "error":
+    case ERROR:
       return {
         ...state,
         isLoading: false,
         errors: action.err,
       };
-    case "next question":
+    case SAVE_RESPONDANT_ID:
       return {
         ...state,
-        currentQuestion: (state.currentQuestion += 1),
-        humanQuestionNum: (state.humanQuestionNum += 1),
+        respondantId: action.payload,
       };
     default:
       return state;

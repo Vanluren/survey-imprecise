@@ -7,17 +7,17 @@ import {
   Col,
   Button,
   Spinner,
-  CardGroup,
+  CardDeck,
 } from "react-bootstrap";
 import StateContext from "../State/context";
 import CaseCard from "../Case/CaseCard.container";
-import { saveAnswer, nextQuestion } from "../State/provider";
-import { useHistory, useParams } from "react-router-dom";
+import { saveAnswer } from "../State/provider";
+import { useHistory } from "react-router-dom";
 
 const Questions = () => {
   const [step, setStep] = useState(1);
   const history = useHistory();
-  const { isLoading, questions, currentQuestion, numOfQuestions } = useContext(
+  const { isLoading, questions, numOfQuestions, respondantId } = useContext(
     StateContext
   );
   const question = questions[step - 1];
@@ -26,14 +26,18 @@ const Questions = () => {
     return setChosenCard(caseId);
   };
   const onNextClickHandler = () => {
-    saveAnswer(question.questionId, chosenCard, question.cases);
+    const cases = question.questionCases.map(
+      (caseInfo) => caseInfo.case.caseId
+    );
+    saveAnswer(respondantId, question.questionId, chosenCard, cases);
     if (step + 1 <= numOfQuestions) {
+      setChosenCard(null);
       return setStep(step + 1);
     }
-    return history.push("/end");
+    return history.push("/phase/2");
   };
   const renderCases = () =>
-    question.cases.map((info, idx) => {
+    question.questionCases.map((info, idx) => {
       return (
         <CaseCard
           key={idx}
@@ -55,21 +59,23 @@ const Questions = () => {
 
   return (
     <ViewWrapper>
-      <Row className="justify-content-center">
-        <Col xs={8}>
+      <Row>
+        <Col xs={{ span: 8 }}>
           <ContentWrapper>
-            <h2>
+            <h1>
               Spørgsmål {step} af {questions.length}
-            </h2>
+            </h1>
             <p>{question.content}</p>
           </ContentWrapper>
         </Col>
       </Row>
       <Row className="justify-content-center">
-        <CardGroup>{renderCases()} </CardGroup>
+        <Col xs={{ span: 12 }}>
+          <CardDeck>{renderCases()} </CardDeck>
+        </Col>
       </Row>
       <Row className="justify-content-center">
-        <Col xs={12}>
+        <Col xs={{ span: 12 }}>
           <NextButton
             disabled={chosenCard === null}
             onClick={onNextClickHandler}
@@ -84,21 +90,18 @@ const Questions = () => {
 
 const ViewWrapper = styled(Container)`
   margin-top: 60px;
-  height: 100vh;
 `;
 
 const ContentWrapper = styled.div`
   display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: center;
 `;
 
 const NextButton = styled(Button)`
-  margin-top: 30px;
+  margin-top: 1rem;
   float: right;
 `;
 
 Questions.propTypes = { questions: PropTypes.array };
 
-export default Questions;
+export default React.memo(Questions);
