@@ -3,7 +3,7 @@ import TextPage from "./TextPage.container";
 
 const PhaseTwo = () => {
   return (
-    <TextPage linkTo="/questions">
+    <TextPage linkTo="/ranking">
       <h1>I anden fase,</h1>
       <p>
         bliver du vist 5 leverandører på samme måde som før. Her vil du blive

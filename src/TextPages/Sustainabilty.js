@@ -52,9 +52,10 @@ const Sustainabilty = () => {
           andet på arbejdstider, sikkerhed og løn for de ansatte.
         </li>
         <li>
-          Arbejdsvilkår: For at være bæredygtig skal produktionen værne om sine
-          ansatte, så de ikke bliver nedslidte eller siger op. Her ses blandt
-          andet på arbejdstider, sikkerhed og løn for de ansatte.
+          Livskvalitet: Tilfredshed blandt producent og medarbejdere er vigtigt
+          for den sociale og økonomiske bæredygtighed. Her ses der på
+          tilfredshed omkring uddannelse og efteruddannelse, sociale relationer
+          og frihed til at efterleve personlige værdier såsom religion.
         </li>
         <li>
           Økonomi: En produktion med dårlig økonomi kan ikke leve for evigt.

@@ -38,7 +38,7 @@ const StyledCard = styled(Card)`
 `;
 
 const StyledCardHeader = styled(Card.Header)`
-  text-transform: uppercase;
+  text-transform: capitalize;
 `;
 
 CaseCard.propTypes = {

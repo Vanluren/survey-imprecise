@@ -1,11 +1,17 @@
 import React, { useEffect } from "react";
+import { Spinner } from "react-bootstrap";
 import StateContext from "./context";
 import { createAction } from "../utils/createAction";
-import { API_URL, RESPONSE_URL, RESPONDANT_URL } from "../utils/urls";
+import {
+  API_URL,
+  RESPONSE_URL,
+  RESPONDANT_URL,
+  RANKINGS_URL,
+} from "../utils/urls";
 import { SAVE_RESPONDANT_ID, SUCCESS, ERROR, REQUEST } from "./action-types.js";
 
 export const initialState = {
-  isLoading: false,
+  isLoading: true,
   errors: null,
   questions: [],
   numOfQuestions: null,
@@ -33,7 +39,6 @@ export const saveOccupation = (occupation) =>
   })
     .then((res) => res.json())
     .then((body) => {
-      console.log(body.respondantId);
       saveRespondantIdToLocalStorage(body.respondantId);
       return saveRespondant(body.respondantId);
     })
@@ -57,8 +62,21 @@ export const saveAnswer = (respondantId, questionId, caseId, cases) =>
     return error(err);
   });
 
+export const saveRanking = (rankings, respondantId) =>
+  fetch(RANKINGS_URL, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      // 'Content-Type': 'application/x-www-form-urlencoded',
+    },
+    mode: "cors",
+    body: JSON.stringify({
+      respondantId: respondantId || window.localStorage.getItem("respondantId"),
+      rankings,
+    }),
+  });
 const reducer = (state, action) => {
-  console.log(action);
+  // console.log(action);
   switch (action.type) {
     case REQUEST:
       return { ...state, isLoading: true };
@@ -66,8 +84,9 @@ const reducer = (state, action) => {
       return {
         ...state,
         isLoading: false,
-        questions: action.payload,
-        numOfQuestions: action.payload.length,
+        questions: action.payload.data,
+        phaseOneQuestions: action.payload.phaseOne,
+        phaseTwoQuestions: action.payload.phaseTwo,
       };
     case ERROR:
       return {
@@ -96,13 +115,21 @@ const StateProvider = ({ children }) => {
         return res.json();
       })
       .then((data) => {
-        return dispatch(success(data));
+        const phaseOne = data.slice(0, 15);
+        const phaseTwo = data.slice(15, 17);
+        return dispatch(success({ data, phaseOne, phaseTwo }));
       })
-      .then((err) => {
+      .catch((err) => {
         return dispatch(error(err));
       });
   }, []);
-
+  if (state.isLoading) {
+    return (
+      <div className="d-flex align-items-center justify-content-center vw-100 vh-100">
+        <Spinner animation="border" variant="primary" />
+      </div>
+    );
+  }
   return (
     <StateContext.Provider value={state}>{children}</StateContext.Provider>
   );

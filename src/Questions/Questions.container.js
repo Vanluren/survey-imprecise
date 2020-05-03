@@ -1,14 +1,6 @@
 import React, { useContext, useState } from "react";
-import PropTypes from "prop-types";
 import styled from "styled-components";
-import {
-  Container,
-  Row,
-  Col,
-  Button,
-  Spinner,
-  CardDeck,
-} from "react-bootstrap";
+import { Container, Row, Col, Button, CardDeck } from "react-bootstrap";
 import StateContext from "../State/context";
 import CaseCard from "../Case/CaseCard.container";
 import { saveAnswer } from "../State/provider";
@@ -17,10 +9,8 @@ import { useHistory } from "react-router-dom";
 const Questions = () => {
   const [step, setStep] = useState(1);
   const history = useHistory();
-  const { isLoading, questions, numOfQuestions, respondantId } = useContext(
-    StateContext
-  );
-  const question = questions[step - 1];
+  const { phaseOneQuestions, respondantId } = useContext(StateContext);
+  const question = phaseOneQuestions[step - 1];
   const [chosenCard, setChosenCard] = useState(null);
   const onCaseChoose = (caseId) => {
     return setChosenCard(caseId);
@@ -30,7 +20,7 @@ const Questions = () => {
       (caseInfo) => caseInfo.case.caseId
     );
     saveAnswer(respondantId, question.questionId, chosenCard, cases);
-    if (step + 1 <= numOfQuestions) {
+    if (step + 1 <= phaseOneQuestions.length) {
       setChosenCard(null);
       return setStep(step + 1);
     }
@@ -48,22 +38,13 @@ const Questions = () => {
         />
       );
     });
-
-  if (isLoading || questions?.length <= 0) {
-    return (
-      <ViewWrapper className="d-flex align-items-center justify-content-center">
-        <Spinner animation="border" variant="primary" />
-      </ViewWrapper>
-    );
-  }
-
   return (
     <ViewWrapper>
       <Row>
         <Col xs={{ span: 8 }}>
           <ContentWrapper>
             <h1>
-              Spørgsmål {step} af {questions.length}
+              Spørgsmål {step} af {phaseOneQuestions.length}
             </h1>
             <p>{question.content}</p>
           </ContentWrapper>
@@ -89,7 +70,7 @@ const Questions = () => {
 };
 
 const ViewWrapper = styled(Container)`
-  margin-top: 60px;
+  margin-top: 8rem;
 `;
 
 const ContentWrapper = styled.div`
@@ -101,7 +82,5 @@ const NextButton = styled(Button)`
   margin-top: 1rem;
   float: right;
 `;
-
-Questions.propTypes = { questions: PropTypes.array };
 
 export default React.memo(Questions);

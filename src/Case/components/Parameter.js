@@ -1,58 +1,61 @@
 import React from "react";
 import styled from "styled-components";
 import { OverlayTrigger, Tooltip } from "react-bootstrap";
+import { indicatorTypes } from "../../utils/indictor-types";
+import { toolTipTexts, toolTipTextsLong } from "../../utils/tooltip-texts";
 
 export const Parameter = ({
   descriptionOne,
   descriptionTwo,
   indicator,
   score,
+  scoreLong,
 }) => {
-  const indicatorTypes = {
-    Soil: "Jordkvalitet",
-    Husbandry: "Husdyr",
-    Nutrients: "Næringsstoffer og miljøbeskyttelse",
-    Biodiversity: "Biodiversitet",
-    Lifequality: "Livskvalitet",
-    Water: "Vand",
-    Energy: "Energi og klima",
-    Economy: "Økonomi",
-    Workconditions: "Arbejdsvilkår",
-    Management: "Bedriftsledelse og strategi",
-  };
-
-  const toolTipTexts = {
-    good: "En score over 70 ud af 100, regnes som god.",
-    ok: "En score mellem 45 og 70 ud af 100, regnes som ok.",
-    bad: "En score under 45 ud af 100 regnes som dårlig.",
-  };
-
   const indicatorColor =
     score > 67 ? "bg-success" : score >= 33 ? "bg-warning" : "bg-danger";
 
   const tooltipText =
     score > 67
-      ? toolTipTexts.good
+      ? toolTipTexts.good.name
       : score >= 33
-      ? toolTipTexts.ok
-      : toolTipTexts.bad;
+      ? toolTipTexts.ok.name
+      : toolTipTexts.bad.name;
+
+  const tooltipTextLong =
+    score > 75
+      ? toolTipTextsLong.perfekt
+      : score >= 50
+      ? toolTipTextsLong.good
+      : score >= 25
+      ? toolTipTextsLong.bad
+      : toolTipTextsLong.reallyBad;
 
   return (
     <div>
       <ParameterHeader>
-        <h5>{indicatorTypes[indicator]} </h5>
         <OverlayTrigger
-          overlay={<Tooltip id="tooltip-disabled">{tooltipText}</Tooltip>}
+          overlay={
+            <Tooltip id="tooltip-disabled">
+              {indicatorTypes[indicator].desc}
+            </Tooltip>
+          }
+        >
+          <h5>{indicatorTypes[indicator].name} </h5>
+        </OverlayTrigger>
+        <OverlayTrigger
+          overlay={<Tooltip id="tooltip-diabled">{tooltipText}</Tooltip>}
         >
           <Score className={`${indicatorColor} text-light`}>
-            {score > 67 ? "God" : score >= 33 ? "Medium" : "Dårlig"}
+            {scoreLong ? tooltipTextLong.name : tooltipText}
           </Score>
         </OverlayTrigger>
       </ParameterHeader>
-      <ul>
-        <li>{descriptionOne}</li>
-        <li>{descriptionTwo}</li>
-      </ul>
+      {descriptionOne && descriptionTwo && (
+        <ul>
+          <li>{descriptionOne}</li>
+          <li>{descriptionTwo}</li>
+        </ul>
+      )}
     </div>
   );
 };
@@ -66,5 +69,6 @@ const ParameterHeader = styled.div`
 const Score = styled.p`
   padding: 0 8px;
   margin: 0 0 7px 8px;
+  text-transform: capitalize;
 `;
 export default Parameter;
