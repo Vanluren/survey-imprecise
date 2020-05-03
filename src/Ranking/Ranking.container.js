@@ -32,7 +32,7 @@ const Ranking = () => {
   const history = useHistory();
   const { phaseTwoQuestions } = useContext(StateContext);
   const titles = ["Grøntsagsleverandør", "Ny kyllingekød- og æggeleverandør"];
-  const question = { title: titles[step], ...phaseTwoQuestions[step - 1] };
+  const question = { title: titles[step - 1], ...phaseTwoQuestions[step - 1] };
   const renderParams = (params) => {
     return params.map(({ parameter }, idx) => {
       return (
