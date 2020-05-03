@@ -9,7 +9,7 @@ const PhaseOne = () => {
         af spørgeskemaet bliver du vist to leverandører.
         Hver leverandør er beskrevet med 3 af bæredygtighedsparametre fra sidste
         side. Ud fra farven og teksten på parametrene kan du se hvor bæredygtige
-        leverandørerne indenfor dise områder. Du skal blot
+        leverandørerne indenfor disse områder. Du skal blot
         vælge den leverandør du helst vil handle fra ud fra denne information.
       </p>
       <p>
