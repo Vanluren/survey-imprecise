@@ -4,12 +4,12 @@ import TextPage from "./TextPage.container";
 const PhaseOne = () => {
   return (
     <TextPage linkTo="/questions">
-      <h1>I første fase,</h1>
+      <h1>I første fase</h1>
       <p>
-        af spørgeskemaet bliver du vist to leverandører som vist på billedet.
-        Hver leverandør er listet op med af bæredygtighedsparametrene fra sidste
-        side. Ud fra farven og teksten på parametrene kan du se hvordan
-        leverandørerne klarer sig på bæredygtighedsparametrene. Du skal blot
+        af spørgeskemaet bliver du vist to leverandører.
+        Hver leverandør er beskrevet med 3 af bæredygtighedsparametre fra sidste
+        side. Ud fra farven og teksten på parametrene kan du se hvor bæredygtige
+        leverandørerne indenfor dise områder. Du skal blot
         vælge den leverandør du helst vil handle fra ud fra denne information.
       </p>
       <p>
