@@ -9,7 +9,7 @@ const Respondant = () => {
   const history = useHistory();
   const placeholders = ["Kok", "Souschef", "Levemand", "Landmand", "Indkøber"];
   const placeholderText =
-    placeholders[Math.floor(Math.random() * placeholders.length)];
+    "F.eks. " + placeholders[Math.floor(Math.random() * placeholders.length)];
 
   const onNextClickHandler = () => {
     saveOccupation(inputVal);

@@ -5,11 +5,20 @@ import { Card } from "react-bootstrap";
 import Parameter from "./components/Parameter";
 
 const CaseCard = ({ caseInfo, onClickHandler, chosen, idx }) => {
-  const renderParams = () =>
-    caseInfo.caseParameters.map(({ parameter }) => {
+  const renderParams = () => {
+    const sortedArr = caseInfo.caseParameters.sort((a, b) => {
+      if (a.parameter.indicator < b.parameter.indicator) {
+        return -1;
+      }
+      if (a.parameter.iindicator > b.parameter.indicator) {
+        return 1;
+      }
+      return 0;
+    });
+    return sortedArr.map(({ parameter, parameterId }) => {
       return (
         <Parameter
-          key={parameter.parameterId}
+          key={parameterId}
           indicator={parameter.indicator}
           score={parameter.score}
           descriptionOne={parameter.descriptionOne}
@@ -17,6 +26,7 @@ const CaseCard = ({ caseInfo, onClickHandler, chosen, idx }) => {
         />
       );
     });
+  };
 
   return (
     <StyledCard

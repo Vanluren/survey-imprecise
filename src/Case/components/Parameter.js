@@ -16,10 +16,10 @@ export const Parameter = ({
 
   const tooltipText =
     score > 67
-      ? toolTipTexts.good.name
+      ? toolTipTexts.good
       : score >= 33
-      ? toolTipTexts.ok.name
-      : toolTipTexts.bad.name;
+      ? toolTipTexts.ok
+      : toolTipTexts.bad;
 
   const tooltipTextLong =
     score > 75
@@ -43,10 +43,14 @@ export const Parameter = ({
           <h5>{indicatorTypes[indicator].name} </h5>
         </OverlayTrigger>
         <OverlayTrigger
-          overlay={<Tooltip id="tooltip-diabled">{tooltipText}</Tooltip>}
+          overlay={
+            <Tooltip id="tooltip-diabled">
+              {scoreLong ? tooltipTextLong.desc : tooltipText.desc}
+            </Tooltip>
+          }
         >
           <Score className={`${indicatorColor} text-light`}>
-            {scoreLong ? tooltipTextLong.name : tooltipText}
+            {scoreLong ? tooltipTextLong.name : tooltipText.name}
           </Score>
         </OverlayTrigger>
       </ParameterHeader>

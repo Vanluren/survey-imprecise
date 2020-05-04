@@ -70,7 +70,8 @@ const Questions = () => {
 };
 
 const ViewWrapper = styled(Container)`
-  margin-top: 8rem;
+  margin-top: 4rem;
+  margin-bottom: 4rem;
 `;
 
 const ContentWrapper = styled.div`

@@ -1,16 +1,12 @@
-import { createGlobalStyle } from 'styled-components';
+import { createGlobalStyle } from "styled-components";
 
 export const GlobalStyle = createGlobalStyle`
-html {
-  font-size: 14px;
-}
-@media (min-width: 768px) {
-  html {
-    font-size: 16px;
-  }
+
+body{
+  padding-bottom: 4rem;
 }
 `;
 
 export const theme = {
-  main: 'mediumseagreen',
+  main: "mediumseagreen",
 };

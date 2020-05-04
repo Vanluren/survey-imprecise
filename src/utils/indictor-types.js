@@ -32,7 +32,7 @@ export const indicatorTypes = {
   Energy: {
     name: "Energi og klima",
     desc:
-      "For at være bæredygtig skal produktionen værne om sine ansatte, så de ikke bliver nedslidte eller siger op. Her ses blandt andet på arbejdstider, sikkerhed og løn for de ansatte.",
+      "For at være bæredygtig skal producenten være energieffektiv og ikke afhænge af ikke-vedvarende energikilder. Dette er med til at beskytte det globale klima.",
   },
   Economy: {
     name: "Økonomi",

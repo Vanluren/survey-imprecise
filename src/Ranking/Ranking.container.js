@@ -100,12 +100,12 @@ const Ranking = () => {
     <ViewWrapper>
       <Question question={question} />
       <Row>
-        <Col xs={6}>
+        <Col xs={12} sm={6}>
           <CardDeck className="d-flex flex-column">
             {renderCaseCards()}
           </CardDeck>
         </Col>
-        <Col xs={{ span: 6 }}>
+        <Col xs={12} sm={6}>
           <Row>
             <Col>
               <CallOut className="callout-warning">
@@ -136,10 +136,10 @@ const Ranking = () => {
                       margin: "10px 0",
                     }}
                   >
-                    <Col xs={1}>
+                    <Col xs={2} sm={1}>
                       <h4>{idx + 1}.</h4>
                     </Col>
-                    <Col xs={11}>
+                    <Col xs={10} sm={11}>
                       <Form.Control
                         defaultValue={"DEFAULT"}
                         ref={formRef}
@@ -173,7 +173,7 @@ const Ranking = () => {
                   <Col>
                     <Button
                       style={{ float: "right" }}
-                      disabled={validationError}
+                      disabled={validationError || firstRender.current}
                       type="submit"
                     >
                       Gem og fortsæt
@@ -188,9 +188,14 @@ const Ranking = () => {
     </ViewWrapper>
   );
 };
-const ValidationError = styled.span``;
+const ValidationError = styled.p`
+  display: flex;
+  margin: 0;
+  padding: 10px 15px;
+`;
 const ViewWrapper = styled(Container)`
-  padding-top: 5rem;
+  padding-top: 4rem;
+  padding-bottom: 4rem;
 `;
 
 const CallOut = styled.div`

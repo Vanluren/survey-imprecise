@@ -49,7 +49,7 @@ const TextPage = ({
 
 const HeaderSection = styled.section`
   position: relative;
-  padding-top: 8rem;
+  padding-top: 4rem;
   padding-bottom: 1rem;
 `;
 const NextButton = styled(Button)`
